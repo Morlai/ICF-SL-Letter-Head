@@ -89,6 +89,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             font-family: 'Oswald', sans-serif;
             border: 2px solid #FFC107;
+            overflow: hidden;
         }
 
         .logo-placeholder img {
@@ -176,88 +177,22 @@
             font-weight: 300;
         }
 
-        /* ===== LETTERHEAD BODY ===== */
+        /* ===== LETTERHEAD BODY (empty, just spacing) ===== */
         .letterhead-body {
             padding: 40px 50px 30px;
+            min-height: 150px;
         }
 
-        .letterhead-body .letter-date {
-            text-align: right;
+        .letterhead-body .placeholder-text {
+            color: #94a3b8;
             font-size: 13px;
-            color: #4a5a6a;
-            font-weight: 500;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f2f5;
-        }
-
-        .letterhead-body .recipient {
-            margin-bottom: 25px;
-        }
-
-        .letterhead-body .recipient h3 {
-            font-size: 15px;
-            font-weight: 600;
-            color: #002244;
-            margin-bottom: 4px;
-        }
-
-        .letterhead-body .recipient p {
-            font-size: 13px;
-            color: #3d5166;
-            line-height: 1.5;
             font-weight: 400;
-        }
-
-        .letterhead-body .salutation {
-            font-size: 14px;
-            font-weight: 500;
-            color: #002244;
-            margin-bottom: 16px;
-        }
-
-        .letterhead-body .content {
-            font-size: 14px;
-            line-height: 1.8;
-            color: #2d3f52;
-            font-weight: 400;
-        }
-
-        .letterhead-body .content p {
-            margin-bottom: 14px;
-        }
-
-        .letterhead-body .content strong {
-            color: #002244;
-            font-weight: 600;
-        }
-
-        .letterhead-body .closing {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #f0f2f5;
-        }
-
-        .letterhead-body .closing p {
-            font-size: 14px;
-            color: #2d3f52;
-            margin-bottom: 6px;
-        }
-
-        .letterhead-body .closing .signature {
-            margin-top: 30px;
-        }
-
-        .letterhead-body .closing .signature .name {
-            font-weight: 700;
-            color: #002244;
-            font-size: 15px;
-        }
-
-        .letterhead-body .closing .signature .title {
-            font-size: 13px;
-            color: #4a5a6a;
-            font-weight: 400;
+            text-align: center;
+            letter-spacing: 0.5px;
+            padding: 20px 0;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            background: #fafbfc;
         }
 
         /* ===== LETTERHEAD FOOTER ===== */
@@ -330,16 +265,13 @@
 
             .letterhead-body {
                 padding: 25px 20px;
+                min-height: 100px;
             }
 
             .letterhead-footer {
                 flex-direction: column;
                 text-align: center;
                 padding: 14px 20px;
-            }
-
-            .letterhead-body .letter-date {
-                text-align: center;
             }
         }
 
@@ -351,6 +283,11 @@
             .letterhead-container {
                 box-shadow: none;
                 border-radius: 0;
+            }
+            .letterhead-body .placeholder-text {
+                border: none;
+                background: transparent;
+                color: #cbd5e0;
             }
         }
     </style>
@@ -364,7 +301,7 @@
         <div class="letterhead-main">
             <div class="logo-wrapper">
                 <div class="logo-placeholder">
-                    <img src="ICF-SL.jpg" alt="ICF-SL Logo" onerror="this.style.display='none'; this.parentElement.textContent='ICF'">
+                    <img src="ICF-SL Logo.jpg" alt="ICF-SL Logo" onerror="this.style.display='none'; this.parentElement.textContent='ICF'">
                 </div>
             </div>
             <div class="org-name-wrapper">
@@ -399,37 +336,10 @@
         </div>
     </div>
 
-    <!-- ===== LETTERHEAD BODY ===== -->
+    <!-- ===== LETTERHEAD BODY (empty) ===== -->
     <div class="letterhead-body">
-        <div class="letter-date">
-            <span>📅 July 13, 2026</span>
-        </div>
-
-        <div class="recipient">
-            <h3>Dr. Samuel B. Kamara</h3>
-            <p>National Malaria Control Programme<br>
-            Ministry of Health and Sanitation<br>
-            Freetown, Sierra Leone</p>
-        </div>
-
-        <div class="salutation">Dear Dr. Kamara,</div>
-
-        <div class="content">
-            <p><strong>RE: SCHOOL-BASED DISTRIBUTION OF ITNs — TECHNICAL SUPPORT</strong></p>
-
-            <p>We are pleased to submit our technical proposal for the implementation of the School-Based Distribution (SBD) of Insecticide-Treated Nets (ITNs) across all 16 districts in Sierra Leone. This initiative aligns with the National Malaria Control Programme's strategic goal of achieving universal coverage and reducing malaria burden among school-age children.</p>
-
-            <p>Informatics Consultancy Firm-SL (ICF-SL) brings extensive experience in data-driven health interventions, having successfully supported the NMCP in previous campaigns. Our team of experts in health informatics, logistics management, and community engagement is fully prepared to deliver a robust and sustainable SBD program.</p>
-
-            <p>We look forward to the opportunity to partner with the NMCP in this critical public health intervention. Please find attached our detailed proposal and budget estimate for your review.</p>
-        </div>
-
-        <div class="closing">
-            <p>Yours sincerely,</p>
-            <div class="signature">
-                <div class="name">Dr. John A. Sesay</div>
-                <div class="title">Managing Director, ICF-SL</div>
-            </div>
+        <div class="placeholder-text">
+            <!-- Letter content area — ready for your content -->
         </div>
     </div>
 
