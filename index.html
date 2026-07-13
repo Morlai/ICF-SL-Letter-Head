@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICF-SL Letterhead</title>
+    <title>ICF-SL Letterhead - Device Assessment Attendance</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -17,7 +17,7 @@
             background: #e8edf3;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             font-family: 'Inter', 'Oswald', sans-serif;
             padding: 40px 20px;
@@ -257,8 +257,7 @@
 
         /* ===== LETTERHEAD BODY ===== */
         .letterhead-body {
-            padding: 40px 50px 30px;
-            min-height: 150px;
+            padding: 30px 40px 25px;
         }
 
         .letterhead-body .letter-date {
@@ -266,21 +265,108 @@
             font-size: 13px;
             color: #4a5a6a;
             font-weight: 500;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #f0f2f5;
         }
 
-        .letterhead-body .placeholder-text {
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 400;
+        /* ===== ATTENDANCE TABLE ===== */
+        .attendance-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 5px;
+        }
+
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+        }
+
+        .attendance-table .table-title {
             text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #002244;
+            letter-spacing: 2px;
+            padding: 8px 0;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .attendance-table .table-subtitle {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #003366;
+            letter-spacing: 1px;
+            padding: 4px 0 12px 0;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .attendance-table th {
+            background: #003366;
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 20px 0;
-            border: 2px dashed #e2e8f0;
-            border-radius: 8px;
-            background: #fafbfc;
+            padding: 10px 8px;
+            text-align: left;
+            border: 1px solid #003366;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+
+        .attendance-table td {
+            padding: 8px 8px;
+            border: 1px solid #d1d9e6;
+            color: #1a2c3e;
+            vertical-align: middle;
+            height: 32px;
+        }
+
+        .attendance-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .attendance-table tr:nth-child(odd) {
+            background: #ffffff;
+        }
+
+        .attendance-table .col-no {
+            width: 45px;
+            text-align: center;
+            font-weight: 600;
+            color: #003366;
+        }
+
+        .attendance-table .col-name {
+            min-width: 160px;
+        }
+
+        .attendance-table .col-phone {
+            min-width: 120px;
+        }
+
+        .attendance-table .col-date {
+            min-width: 100px;
+        }
+
+        .attendance-table .col-sign {
+            min-width: 120px;
+        }
+
+        .attendance-table .table-footer {
+            text-align: center;
+            font-size: 10px;
+            color: #6c7a8a;
+            padding: 10px 0 4px 0;
+            border-top: 2px solid #e2e8f0;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
         }
 
         /* ===== LETTERHEAD FOOTER ===== */
@@ -453,10 +539,26 @@
                 color-adjust: exact !important;
             }
 
-            .letterhead-body .placeholder-text {
-                border: none !important;
-                background: transparent !important;
-                color: #cbd5e0 !important;
+            .attendance-table th {
+                background: #003366 !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .attendance-table tr:nth-child(even) {
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .attendance-table tr:nth-child(odd) {
+                background: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
             }
 
             .letterhead-footer .footer-text {
@@ -539,18 +641,86 @@
             }
 
             .letterhead-body {
-                padding: 25px 20px;
-                min-height: 100px;
+                padding: 20px 15px;
             }
 
             .letterhead-body .letter-date {
                 text-align: center;
             }
 
+            .attendance-table {
+                font-size: 10px;
+            }
+
+            .attendance-table th,
+            .attendance-table td {
+                padding: 5px 4px;
+            }
+
+            .attendance-table .col-no {
+                width: 30px;
+            }
+
+            .attendance-table .col-name {
+                min-width: 100px;
+            }
+
+            .attendance-table .col-phone {
+                min-width: 80px;
+            }
+
+            .attendance-table .col-date {
+                min-width: 70px;
+            }
+
+            .attendance-table .col-sign {
+                min-width: 80px;
+            }
+
+            .attendance-table .table-title {
+                font-size: 15px;
+            }
+
+            .attendance-table .table-subtitle {
+                font-size: 12px;
+            }
+
             .letterhead-footer {
                 flex-direction: column;
                 text-align: center;
                 padding: 14px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .attendance-table {
+                font-size: 9px;
+            }
+
+            .attendance-table th,
+            .attendance-table td {
+                padding: 4px 3px;
+                height: 28px;
+            }
+
+            .attendance-table .col-no {
+                width: 25px;
+            }
+
+            .attendance-table .col-name {
+                min-width: 70px;
+            }
+
+            .attendance-table .col-phone {
+                min-width: 60px;
+            }
+
+            .attendance-table .col-date {
+                min-width: 55px;
+            }
+
+            .attendance-table .col-sign {
+                min-width: 60px;
             }
         }
     </style>
@@ -617,8 +787,63 @@
         <!-- ===== LETTERHEAD BODY ===== -->
         <div class="letterhead-body" id="letterheadBody">
             <div class="letter-date" id="currentDate">📅 Loading date...</div>
-            <div class="placeholder-text">
-                <!-- Letter content area — ready for your content -->
+
+            <!-- ===== DEVICE ASSESSMENT - ATTENDANCE TABLE ===== -->
+            <div class="attendance-table-wrapper">
+                <table class="attendance-table">
+                    <tr>
+                        <td colspan="5" class="table-title">DEVICE ASSESSMENT</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="table-subtitle">ATTENDANCE</td>
+                    </tr>
+                    <thead>
+                        <tr>
+                            <th class="col-no">NO.</th>
+                            <th class="col-name">NAME</th>
+                            <th class="col-phone">PHONE NUMBER</th>
+                            <th class="col-date">DATE</th>
+                            <th class="col-sign">SIGN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="col-no">1</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">2</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">3</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">4</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">5</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">6</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">7</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">8</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">9</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">10</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">11</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">12</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">13</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">14</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">15</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">16</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">17</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">18</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">19</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">20</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">21</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">22</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">23</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">24</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">25</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">26</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">27</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">28</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">29</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">30</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">31</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">32</td><td></td><td></td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+                <div class="table-footer">
+                    — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — —
+                </div>
             </div>
         </div>
 
@@ -683,10 +908,10 @@
             const link = document.createElement('a');
             const now = new Date();
             const dateStr = now.toISOString().split('T')[0];
-            link.download = `ICF-SL_Letterhead_${dateStr}.png`;
+            link.download = `ICF-SL_Device_Assessment_${dateStr}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
-            showToast('✅ Letterhead downloaded successfully!', 'success');
+            showToast('✅ Downloaded successfully!', 'success');
         }).catch(function(err) {
             console.error(err);
             showToast('❌ Download failed. Please try again.', 'error');
@@ -707,16 +932,16 @@
         }).then(function(canvas) {
             canvas.toBlob(function(blob) {
                 if (!blob) {
-                    showToast('❌ Failed to generate image for sharing.', 'error');
+                    showToast('❌ Failed to generate image.', 'error');
                     return;
                 }
                 
-                const file = new File([blob], 'ICF-SL_Letterhead.png', { type: 'image/png' });
+                const file = new File([blob], 'ICF-SL_Device_Assessment.png', { type: 'image/png' });
                 
                 if (navigator.share) {
                     navigator.share({
-                        title: 'ICF-SL Letterhead',
-                        text: 'Informatics Consultancy Firm-SL Letterhead',
+                        title: 'ICF-SL Device Assessment Attendance',
+                        text: 'Device Assessment Attendance Sheet - ICF-SL',
                         files: [file]
                     }).then(() => {
                         showToast('✅ Shared successfully!', 'success');
@@ -736,15 +961,15 @@
                             showToast('✅ Image copied to clipboard!', 'success');
                         }).catch(() => {
                             const link = document.createElement('a');
-                            link.download = 'ICF-SL_Letterhead.png';
+                            link.download = 'ICF-SL_Device_Assessment.png';
                             link.href = URL.createObjectURL(blob);
                             link.click();
                             URL.revokeObjectURL(link.href);
-                            showToast('📥 Image downloaded instead (share not supported)', 'info');
+                            showToast('📥 Image downloaded (share not supported)', 'info');
                         });
                     } else {
                         const link = document.createElement('a');
-                        link.download = 'ICF-SL_Letterhead.png';
+                        link.download = 'ICF-SL_Device_Assessment.png';
                         link.href = URL.createObjectURL(blob);
                         link.click();
                         URL.revokeObjectURL(link.href);
@@ -754,30 +979,26 @@
             }, 'image/png');
         }).catch(function(err) {
             console.error(err);
-            showToast('❌ Failed to generate image for sharing.', 'error');
+            showToast('❌ Failed to generate image.', 'error');
         });
     }
 
     // ===== PRINT FUNCTION =====
     function printLetterhead() {
-        // Hide button bar and toast for printing
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
         
         buttonBar.style.display = 'none';
         toast.style.display = 'none';
         
-        // Trigger print
         window.print();
         
-        // Restore after print dialog closes
         setTimeout(function() {
             buttonBar.style.display = 'flex';
             toast.style.display = '';
         }, 1000);
     }
 
-    // Handle print cancellation/after print
     window.addEventListener('afterprint', function() {
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
