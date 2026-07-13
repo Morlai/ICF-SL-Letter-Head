@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICF-SL Letterhead</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -22,13 +23,81 @@
             padding: 40px 20px;
         }
 
+        .main-wrapper {
+            max-width: 900px;
+            width: 100%;
+        }
+
         .letterhead-container {
             background: #ffffff;
-            max-width: 900px;
             width: 100%;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             overflow: hidden;
+        }
+
+        /* ===== BUTTON BAR ===== */
+        .button-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 40px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-action:active {
+            transform: translateY(0);
+        }
+
+        .btn-download {
+            background: #003366;
+        }
+
+        .btn-download:hover {
+            background: #002244;
+        }
+
+        .btn-share {
+            background: #1a8c4a;
+        }
+
+        .btn-share:hover {
+            background: #14703b;
+        }
+
+        .btn-print {
+            background: #6c757d;
+        }
+
+        .btn-print:hover {
+            background: #5a6268;
+        }
+
+        .btn-action .icon {
+            font-size: 16px;
         }
 
         /* ===== LETTERHEAD TOP ===== */
@@ -177,10 +246,20 @@
             font-weight: 300;
         }
 
-        /* ===== LETTERHEAD BODY (empty, just spacing) ===== */
+        /* ===== LETTERHEAD BODY ===== */
         .letterhead-body {
             padding: 40px 50px 30px;
             min-height: 150px;
+        }
+
+        .letterhead-body .letter-date {
+            text-align: right;
+            font-size: 13px;
+            color: #4a5a6a;
+            font-weight: 500;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f2f5;
         }
 
         .letterhead-body .placeholder-text {
@@ -231,8 +310,59 @@
             color: rgba(255,255,255,0.5);
         }
 
+        /* ===== NOTIFICATION TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1a2c3e;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            background: #1a8c4a;
+        }
+
+        .toast.error {
+            background: #c0392b;
+        }
+
+        .toast.info {
+            background: #003366;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 700px) {
+            .button-bar {
+                padding: 12px 20px;
+                justify-content: center;
+            }
+
+            .btn-action {
+                padding: 6px 14px;
+                font-size: 11px;
+            }
+
+            .btn-action .icon {
+                font-size: 14px;
+            }
+
             .letterhead-top {
                 padding: 20px;
             }
@@ -268,6 +398,10 @@
                 min-height: 100px;
             }
 
+            .letterhead-body .letter-date {
+                text-align: center;
+            }
+
             .letterhead-footer {
                 flex-direction: column;
                 text-align: center;
@@ -280,80 +414,265 @@
                 background: white;
                 padding: 0;
             }
+
+            .button-bar {
+                display: none !important;
+            }
+
             .letterhead-container {
                 box-shadow: none;
                 border-radius: 0;
             }
+
             .letterhead-body .placeholder-text {
                 border: none;
                 background: transparent;
                 color: #cbd5e0;
+            }
+
+            .toast {
+                display: none !important;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="letterhead-container">
+<div class="main-wrapper">
 
-    <!-- ===== LETTERHEAD TOP ===== -->
-    <div class="letterhead-top">
-        <div class="letterhead-main">
-            <div class="logo-wrapper">
-                <div class="logo-placeholder">
-                    <img src="ICF-SL Logo.jpg" alt="ICF-SL Logo" onerror="this.style.display='none'; this.parentElement.textContent='ICF'">
+    <!-- ===== BUTTON BAR ===== -->
+    <div class="button-bar">
+        <button class="btn-action btn-download" onclick="downloadLetterhead()">
+            <span class="icon">⬇️</span> Download
+        </button>
+        <button class="btn-action btn-share" onclick="shareLetterhead()">
+            <span class="icon">📤</span> Share
+        </button>
+        <button class="btn-action btn-print" onclick="printLetterhead()">
+            <span class="icon">🖨️</span> Print
+        </button>
+    </div>
+
+    <div class="letterhead-container" id="letterheadContainer">
+
+        <!-- ===== LETTERHEAD TOP ===== -->
+        <div class="letterhead-top">
+            <div class="letterhead-main">
+                <div class="logo-wrapper">
+                    <div class="logo-placeholder">
+                        <img src="ICF-SL Logo.jpg" alt="ICF-SL Logo" onerror="this.style.display='none'; this.parentElement.textContent='ICF'">
+                    </div>
+                </div>
+                <div class="org-name-wrapper">
+                    <h1>INFORMATICS CONSULTANCY FIRM-SL</h1>
+                    <div class="tagline">Driving Data-Driven Solutions for Health and Development</div>
+                    <div class="sub-tag">Sierra Leone · West Africa</div>
                 </div>
             </div>
-            <div class="org-name-wrapper">
-                <h1>INFORMATICS CONSULTANCY FIRM-SL</h1>
-                <div class="tagline">Driving Data-Driven Solutions for Health and Development</div>
-                <div class="sub-tag">Sierra Leone · West Africa</div>
+            <div class="gold-accent"></div>
+        </div>
+
+        <!-- ===== CONTACT BAR ===== -->
+        <div class="contact-bar">
+            <div class="contact-item">
+                <span class="icon">📍</span>
+                <span>44 Main Street, Freetown, Sierra Leone</span>
+            </div>
+            <div class="contact-divider">|</div>
+            <div class="contact-item">
+                <span class="icon">📞</span>
+                <span>+232 76 123 456</span>
+            </div>
+            <div class="contact-divider">|</div>
+            <div class="contact-item">
+                <span class="icon">✉️</span>
+                <span>info@icf-sl.com</span>
+            </div>
+            <div class="contact-divider">|</div>
+            <div class="contact-item">
+                <span class="icon">🌐</span>
+                <span>www.icf-sl.com</span>
             </div>
         </div>
-        <div class="gold-accent"></div>
-    </div>
 
-    <!-- ===== CONTACT BAR ===== -->
-    <div class="contact-bar">
-        <div class="contact-item">
-            <span class="icon">📍</span>
-            <span>44 Main Street, Freetown, Sierra Leone</span>
+        <!-- ===== LETTERHEAD BODY ===== -->
+        <div class="letterhead-body" id="letterheadBody">
+            <div class="letter-date" id="currentDate">📅 Loading date...</div>
+            <div class="placeholder-text">
+                <!-- Letter content area — ready for your content -->
+            </div>
         </div>
-        <div class="contact-divider">|</div>
-        <div class="contact-item">
-            <span class="icon">📞</span>
-            <span>+232 76 123 456</span>
-        </div>
-        <div class="contact-divider">|</div>
-        <div class="contact-item">
-            <span class="icon">✉️</span>
-            <span>info@icf-sl.com</span>
-        </div>
-        <div class="contact-divider">|</div>
-        <div class="contact-item">
-            <span class="icon">🌐</span>
-            <span>www.icf-sl.com</span>
-        </div>
-    </div>
 
-    <!-- ===== LETTERHEAD BODY (empty) ===== -->
-    <div class="letterhead-body">
-        <div class="placeholder-text">
-            <!-- Letter content area — ready for your content -->
+        <!-- ===== LETTERHEAD FOOTER ===== -->
+        <div class="letterhead-footer">
+            <div class="footer-text">
+                <strong>ICF-SL</strong> · Informatics Consultancy Firm-Sierra Leone · <span style="color:rgba(255,255,255,0.6);">Est. 2018</span>
+            </div>
+            <div class="footer-tag">
+                <span>🔹</span> Data-Driven Solutions <span>🔹</span> Health &amp; Development <span>🔹</span> SBD 2026
+            </div>
         </div>
-    </div>
 
-    <!-- ===== LETTERHEAD FOOTER ===== -->
-    <div class="letterhead-footer">
-        <div class="footer-text">
-            <strong>ICF-SL</strong> · Informatics Consultancy Firm-Sierra Leone · <span style="color:rgba(255,255,255,0.6);">Est. 2018</span>
-        </div>
-        <div class="footer-tag">
-            <span>🔹</span> Data-Driven Solutions <span>🔹</span> Health &amp; Development <span>🔹</span> SBD 2026
-        </div>
     </div>
 
 </div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+    // ===== AUTO-DISPLAY CURRENT DATE =====
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateElement = document.getElementById('currentDate');
+        if (dateElement) {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const formattedDate = now.toLocaleDateString('en-US', options);
+            dateElement.textContent = '📅 ' + formattedDate;
+        }
+    });
+
+    // ===== TOAST NOTIFICATION =====
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast ' + type;
+        // Force reflow
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // ===== DOWNLOAD FUNCTION =====
+    function downloadLetterhead() {
+        const element = document.getElementById('letterheadContainer');
+        showToast('Generating image...', 'info');
+        
+        html2canvas(element, {
+            scale: 2.5,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false,
+            allowTaint: true
+        }).then(function(canvas) {
+            const link = document.createElement('a');
+            const now = new Date();
+            const dateStr = now.toISOString().split('T')[0];
+            link.download = `ICF-SL_Letterhead_${dateStr}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✅ Letterhead downloaded successfully!', 'success');
+        }).catch(function(err) {
+            console.error(err);
+            showToast('❌ Download failed. Please try again.', 'error');
+        });
+    }
+
+    // ===== SHARE FUNCTION =====
+    function shareLetterhead() {
+        const element = document.getElementById('letterheadContainer');
+        showToast('Preparing to share...', 'info');
+        
+        html2canvas(element, {
+            scale: 2.5,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false,
+            allowTaint: true
+        }).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                if (!blob) {
+                    showToast('❌ Failed to generate image for sharing.', 'error');
+                    return;
+                }
+                
+                const file = new File([blob], 'ICF-SL_Letterhead.png', { type: 'image/png' });
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'ICF-SL Letterhead',
+                        text: 'Informatics Consultancy Firm-SL Letterhead',
+                        files: [file]
+                    }).then(() => {
+                        showToast('✅ Shared successfully!', 'success');
+                    }).catch((err) => {
+                        if (err.name !== 'AbortError') {
+                            console.error(err);
+                            showToast('❌ Share cancelled or failed.', 'error');
+                        }
+                    });
+                } else {
+                    // Fallback: Copy image to clipboard
+                    if (navigator.clipboard && navigator.clipboard.write) {
+                        navigator.clipboard.write([
+                            new ClipboardItem({
+                                'image/png': blob
+                            })
+                        ]).then(() => {
+                            showToast('✅ Image copied to clipboard!', 'success');
+                        }).catch(() => {
+                            // Final fallback: download
+                            const link = document.createElement('a');
+                            link.download = 'ICF-SL_Letterhead.png';
+                            link.href = URL.createObjectURL(blob);
+                            link.click();
+                            URL.revokeObjectURL(link.href);
+                            showToast('📥 Image downloaded instead (share not supported)', 'info');
+                        });
+                    } else {
+                        // Fallback: download
+                        const link = document.createElement('a');
+                        link.download = 'ICF-SL_Letterhead.png';
+                        link.href = URL.createObjectURL(blob);
+                        link.click();
+                        URL.revokeObjectURL(link.href);
+                        showToast('📥 Share not supported — image downloaded', 'info');
+                    }
+                }
+            }, 'image/png');
+        }).catch(function(err) {
+            console.error(err);
+            showToast('❌ Failed to generate image for sharing.', 'error');
+        });
+    }
+
+    // ===== PRINT FUNCTION =====
+    function printLetterhead() {
+        // Temporarily hide the button bar for printing
+        const buttonBar = document.querySelector('.button-bar');
+        const toast = document.getElementById('toast');
+        const originalDisplay = buttonBar.style.display;
+        const toastOriginalDisplay = toast.style.display;
+        
+        buttonBar.style.display = 'none';
+        toast.style.display = 'none';
+        
+        // Trigger print
+        window.print();
+        
+        // Restore after print dialog closes
+        setTimeout(function() {
+            buttonBar.style.display = originalDisplay || 'flex';
+            toast.style.display = toastOriginalDisplay || '';
+            showToast('🖨️ Print dialog closed', 'info');
+        }, 1000);
+    }
+
+    // Handle print cancellation
+    window.addEventListener('afterprint', function() {
+        const buttonBar = document.querySelector('.button-bar');
+        const toast = document.getElementById('toast');
+        buttonBar.style.display = 'flex';
+        toast.style.display = '';
+    });
+</script>
 
 </body>
 </html>
