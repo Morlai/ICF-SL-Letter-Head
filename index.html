@@ -39,24 +39,11 @@
         /* ===== BUTTON BAR ===== */
         .button-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: flex-end;
             gap: 12px;
             padding: 16px 40px;
             background: #f8fafc;
             border-bottom: 1px solid #e2e8f0;
-            flex-wrap: wrap;
-        }
-
-        .button-bar-left {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .button-bar-right {
-            display: flex;
-            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -107,15 +94,6 @@
 
         .btn-print:hover {
             background: #5a6268;
-        }
-
-        .btn-add-row {
-            background: #FFC107;
-            color: #002244;
-        }
-
-        .btn-add-row:hover {
-            background: #e0a800;
         }
 
         .btn-action .icon {
@@ -334,48 +312,42 @@
             min-width: 120px;
         }
 
-        .attendance-table input[type="text"] {
-            width: 100%;
-            border: none;
-            background: transparent;
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            padding: 4px 2px;
-            color: #1a2c3e;
-            outline: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
+        /* ===== ADD ROW BUTTON BELOW TABLE ===== */
+        .add-row-container {
+            display: flex;
+            justify-content: center;
+            padding: 16px 0 4px 0;
         }
 
-        .attendance-table input[type="text"]:focus {
-            border-bottom: 1px solid #003366;
-        }
-
-        .attendance-table input[type="text"]::placeholder {
-            color: #b0c0d0;
-            font-size: 10px;
-        }
-
-        .attendance-table .delete-row-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s;
+        .btn-add-row {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            line-height: 1;
+            gap: 8px;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #FFC107;
+            color: #002244;
+            box-shadow: 0 2px 10px rgba(255, 193, 7, 0.3);
         }
 
-        .attendance-table .delete-row-btn:hover {
-            background: #c82333;
-            transform: scale(1.1);
+        .btn-add-row:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(255, 193, 7, 0.4);
+        }
+
+        .btn-add-row:active {
+            transform: translateY(0);
+        }
+
+        .btn-add-row .icon {
+            font-size: 18px;
         }
 
         /* ===== LETTERHEAD FOOTER ===== */
@@ -466,6 +438,10 @@
             }
 
             .button-bar {
+                display: none !important;
+            }
+
+            .add-row-container {
                 display: none !important;
             }
 
@@ -563,10 +539,6 @@
                 color-adjust: exact !important;
             }
 
-            .attendance-table .delete-row-btn {
-                display: none !important;
-            }
-
             .letterhead-footer .footer-text {
                 color: rgba(255,255,255,0.8) !important;
                 -webkit-print-color-adjust: exact !important;
@@ -604,12 +576,6 @@
         @media (max-width: 700px) {
             .button-bar {
                 padding: 12px 20px;
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .button-bar-left,
-            .button-bar-right {
                 justify-content: center;
             }
 
@@ -682,6 +648,11 @@
                 text-align: center;
                 padding: 14px 20px;
             }
+
+            .btn-add-row {
+                padding: 8px 20px;
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -723,22 +694,15 @@
 
     <!-- ===== BUTTON BAR ===== -->
     <div class="button-bar">
-        <div class="button-bar-left">
-            <button class="btn-action btn-add-row" onclick="addRow()">
-                <span class="icon">➕</span> Add Row
-            </button>
-        </div>
-        <div class="button-bar-right">
-            <button class="btn-action btn-download" onclick="downloadLetterhead()">
-                <span class="icon">⬇️</span> Download
-            </button>
-            <button class="btn-action btn-share" onclick="shareLetterhead()">
-                <span class="icon">📤</span> Share
-            </button>
-            <button class="btn-action btn-print" onclick="printLetterhead()">
-                <span class="icon">🖨️</span> Print
-            </button>
-        </div>
+        <button class="btn-action btn-download" onclick="downloadLetterhead()">
+            <span class="icon">⬇️</span> Download
+        </button>
+        <button class="btn-action btn-share" onclick="shareLetterhead()">
+            <span class="icon">📤</span> Share
+        </button>
+        <button class="btn-action btn-print" onclick="printLetterhead()">
+            <span class="icon">🖨️</span> Print
+        </button>
     </div>
 
     <div class="letterhead-container" id="letterheadContainer">
@@ -782,44 +746,49 @@
                         </tr>
                     </thead>
                     <tbody id="tableBody">
-                        <tr id="row-1">
-                            <td class="col-no">1</td>
-                            <td><input type="text" placeholder="Enter name"></td>
-                            <td><input type="text" placeholder="Enter phone"></td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-                            <td><input type="text" placeholder="Signature"></td>
-                        </tr>
-                        <tr id="row-2">
-                            <td class="col-no">2</td>
-                            <td><input type="text" placeholder="Enter name"></td>
-                            <td><input type="text" placeholder="Enter phone"></td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-                            <td><input type="text" placeholder="Signature"></td>
-                        </tr>
-                        <tr id="row-3">
-                            <td class="col-no">3</td>
-                            <td><input type="text" placeholder="Enter name"></td>
-                            <td><input type="text" placeholder="Enter phone"></td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-                            <td><input type="text" placeholder="Signature"></td>
-                        </tr>
-                        <tr id="row-4">
-                            <td class="col-no">4</td>
-                            <td><input type="text" placeholder="Enter name"></td>
-                            <td><input type="text" placeholder="Enter phone"></td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-                            <td><input type="text" placeholder="Signature"></td>
-                        </tr>
-                        <tr id="row-5">
-                            <td class="col-no">5</td>
-                            <td><input type="text" placeholder="Enter name"></td>
-                            <td><input type="text" placeholder="Enter phone"></td>
-                            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-                            <td><input type="text" placeholder="Signature"></td>
-                        </tr>
+                        <tr><td class="col-no">1</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">2</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">3</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">4</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">5</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">6</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">7</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">8</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">9</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">10</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">11</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">12</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">13</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">14</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">15</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">16</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">17</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">18</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">19</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">20</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">21</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">22</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">23</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">24</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">25</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">26</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">27</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">28</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">29</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">30</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">31</td><td></td><td></td><td></td><td></td></tr>
+                        <tr><td class="col-no">32</td><td></td><td></td><td></td><td></td></tr>
                     </tbody>
                 </table>
             </div>
+
+            <!-- ===== ADD ROW BUTTON BELOW TABLE ===== -->
+            <div class="add-row-container">
+                <button class="btn-add-row" onclick="addRow()">
+                    <span class="icon">➕</span> Add Row
+                </button>
+            </div>
+
         </div>
 
         <!-- ===== LETTERHEAD FOOTER ===== -->
@@ -840,23 +809,20 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    let rowCounter = 5;
+    let rowCounter = 32;
 
     // ===== ADD ROW FUNCTION =====
     function addRow() {
         rowCounter++;
         const tbody = document.getElementById('tableBody');
         const newRow = document.createElement('tr');
-        newRow.id = `row-${rowCounter}`;
-        
         newRow.innerHTML = `
             <td class="col-no">${rowCounter}</td>
-            <td><input type="text" placeholder="Enter name"></td>
-            <td><input type="text" placeholder="Enter phone"></td>
-            <td><input type="text" placeholder="DD/MM/YYYY"></td>
-            <td><input type="text" placeholder="Signature"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         `;
-        
         tbody.appendChild(newRow);
         showToast(`✅ Row ${rowCounter} added successfully!`, 'success');
     }
@@ -968,23 +934,28 @@
     function printLetterhead() {
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
+        const addRowBtn = document.querySelector('.add-row-container');
         
         buttonBar.style.display = 'none';
         toast.style.display = 'none';
+        if (addRowBtn) addRowBtn.style.display = 'none';
         
         window.print();
         
         setTimeout(function() {
             buttonBar.style.display = 'flex';
             toast.style.display = '';
+            if (addRowBtn) addRowBtn.style.display = 'flex';
         }, 1000);
     }
 
     window.addEventListener('afterprint', function() {
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
+        const addRowBtn = document.querySelector('.add-row-container');
         if (buttonBar) buttonBar.style.display = 'flex';
         if (toast) toast.style.display = '';
+        if (addRowBtn) addRowBtn.style.display = 'flex';
     });
 </script>
 
