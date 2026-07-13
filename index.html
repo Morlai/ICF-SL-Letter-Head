@@ -4,17 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICF-SL Letterhead</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- ICF THEME VARIABLES --- */
-        :root {
-            --icf-primary: #0A2540;      /* Deep Navy Blue */
-            --icf-accent: #00B4D8;       /* Tech Cyan */
-            --icf-text: #334155;         /* Slate Gray */
-            --icf-light-bg: #F8FAFC;     /* Very Light Gray/White */
-            --icf-border: #E2E8F0;       /* Light Border */
-        }
-
-        /* --- RESET & BASE --- */
         * {
             margin: 0;
             padding: 0;
@@ -22,261 +13,437 @@
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #E2E8F0;
-            color: var(--icf-text);
-            line-height: 1.6;
+            background: #e8edf3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', 'Oswald', sans-serif;
             padding: 40px 20px;
         }
 
-        /* --- A4 PAPER CONTAINER --- */
-        .paper {
-            max-width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
-            background: #FFFFFF;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            padding: 20mm 20mm 30mm 20mm;
-            position: relative;
+        .letterhead-container {
+            background: #ffffff;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
         }
 
-        /* --- HEADER SECTION --- */
-        .letter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 3px solid var(--icf-primary);
+        /* ===== LETTERHEAD TOP ===== */
+        .letterhead-top {
+            background: linear-gradient(135deg, #002244 0%, #003366 50%, #004080 100%);
+            padding: 30px 40px 20px;
             position: relative;
-            margin-bottom: 40px;
+            overflow: hidden;
         }
 
-        /* Accent line overlay */
-        .letter-header::after {
+        .letterhead-top::before {
             content: '';
             position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 25%;
-            height: 3px;
-            background: var(--icf-accent);
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 193, 7, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
-        /* Brand / Logo Area */
-        .brand {
+        .letterhead-top::after {
+            content: '';
+            position: absolute;
+            bottom: -60%;
+            left: -5%;
+            width: 250px;
+            height: 250px;
+            background: rgba(255, 193, 7, 0.04);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .letterhead-main {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
         }
 
-        .logo-icon {
+        .logo-wrapper {
             flex-shrink: 0;
         }
 
-        .company-name {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--icf-primary);
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-        }
-
-        .company-name .sl-accent {
-            color: var(--icf-accent);
-            font-weight: 700;
-        }
-
-        .tagline {
-            font-size: 11px;
-            font-weight: 500;
-            color: #64748B;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-top: 4px;
-        }
-
-        /* Contact Info Area */
-        .contact-info {
-            text-align: right;
-            font-size: 12px;
-            color: var(--icf-text);
-            line-height: 1.8;
-        }
-
-        .contact-info p {
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 16px;
             display: flex;
-            justify-content: flex-end;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 28px;
+            color: #003366;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'Oswald', sans-serif;
+            border: 2px solid #FFC107;
         }
 
-        .contact-info .icon {
-            color: var(--icf-accent);
-            font-weight: bold;
-            width: 16px;
-            text-align: center;
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
+            padding: 8px;
         }
 
-        .contact-info a {
-            color: var(--icf-text);
-            text-decoration: none;
+        .org-name-wrapper {
+            flex: 1;
         }
 
-        .contact-info a:hover {
-            color: var(--icf-accent);
+        .org-name-wrapper h1 {
+            color: #ffffff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* --- LETTER BODY (Placeholder) --- */
-        .letter-body {
-            margin-top: 20px;
+        .org-name-wrapper .tagline {
+            color: #FFC107;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            opacity: 0.9;
+        }
+
+        .org-name-wrapper .sub-tag {
+            color: rgba(255,255,255,0.7);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        /* Gold accent bar */
+        .gold-accent {
+            height: 4px;
+            background: linear-gradient(90deg, #FFC107, #FFD966, #FFC107);
+            position: relative;
+            z-index: 1;
+            margin-top: 18px;
+        }
+
+        /* Contact & address bar */
+        .contact-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            padding: 10px 40px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 11px;
+            color: #2c3e50;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .contact-item .icon {
+            color: #003366;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .contact-item span {
+            color: #1a2c3e;
+        }
+
+        .contact-divider {
+            color: #cbd5e0;
+            font-weight: 300;
+        }
+
+        /* ===== LETTERHEAD BODY ===== */
+        .letterhead-body {
+            padding: 40px 50px 30px;
+        }
+
+        .letterhead-body .letter-date {
+            text-align: right;
+            font-size: 13px;
+            color: #4a5a6a;
+            font-weight: 500;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .letterhead-body .recipient {
+            margin-bottom: 25px;
+        }
+
+        .letterhead-body .recipient h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #002244;
+            margin-bottom: 4px;
+        }
+
+        .letterhead-body .recipient p {
+            font-size: 13px;
+            color: #3d5166;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        .letterhead-body .salutation {
             font-size: 14px;
-            color: var(--icf-text);
+            font-weight: 500;
+            color: #002244;
+            margin-bottom: 16px;
         }
 
-        .date {
-            margin-bottom: 30px;
+        .letterhead-body .content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #2d3f52;
+            font-weight: 400;
+        }
+
+        .letterhead-body .content p {
+            margin-bottom: 14px;
+        }
+
+        .letterhead-body .content strong {
+            color: #002244;
             font-weight: 600;
         }
 
-        .recipient {
-            margin-bottom: 30px;
-            line-height: 1.5;
+        .letterhead-body .closing {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f2f5;
         }
 
-        .salutation {
-            margin-bottom: 20px;
+        .letterhead-body .closing p {
+            font-size: 14px;
+            color: #2d3f52;
+            margin-bottom: 6px;
         }
 
-        .content p {
-            margin-bottom: 16px;
-            text-align: justify;
+        .letterhead-body .closing .signature {
+            margin-top: 30px;
         }
 
-        .signature {
-            margin-top: 50px;
-        }
-
-        .signature .sign-off {
-            margin-bottom: 40px;
-        }
-
-        .signature .name {
+        .letterhead-body .closing .signature .name {
             font-weight: 700;
-            color: var(--icf-primary);
+            color: #002244;
+            font-size: 15px;
         }
 
-        .signature .title {
+        .letterhead-body .closing .signature .title {
             font-size: 13px;
-            color: #64748B;
+            color: #4a5a6a;
+            font-weight: 400;
         }
 
-        /* --- FOOTER --- */
-        .letter-footer {
-            position: absolute;
-            bottom: 15mm;
-            left: 20mm;
-            right: 20mm;
-            text-align: center;
+        /* ===== LETTERHEAD FOOTER ===== */
+        .letterhead-footer {
+            background: linear-gradient(135deg, #002244 0%, #003366 100%);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .letterhead-footer .footer-text {
+            color: rgba(255,255,255,0.8);
             font-size: 10px;
-            color: #94A3B8;
-            border-top: 1px solid var(--icf-border);
-            padding-top: 10px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
-        /* --- PRINT STYLES --- */
+        .letterhead-footer .footer-text strong {
+            color: #FFC107;
+            font-weight: 600;
+        }
+
+        .letterhead-footer .footer-tag {
+            color: #FFC107;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .letterhead-footer .footer-tag span {
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .letterhead-top {
+                padding: 20px;
+            }
+
+            .letterhead-main {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+
+            .org-name-wrapper h1 {
+                font-size: 22px;
+            }
+
+            .contact-bar {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+                padding: 12px 20px;
+                gap: 6px;
+            }
+
+            .contact-item {
+                justify-content: center;
+            }
+
+            .contact-divider {
+                display: none;
+            }
+
+            .letterhead-body {
+                padding: 25px 20px;
+            }
+
+            .letterhead-footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 14px 20px;
+            }
+
+            .letterhead-body .letter-date {
+                text-align: center;
+            }
+        }
+
         @media print {
             body {
-                background: none;
+                background: white;
                 padding: 0;
             }
-            .paper {
+            .letterhead-container {
                 box-shadow: none;
-                max-width: 100%;
-                padding: 15mm;
-                margin: 0;
-            }
-            .letter-footer {
-                position: fixed;
-                bottom: 10mm;
+                border-radius: 0;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="paper">
-        <!-- ================= HEADER ================= -->
-        <header class="letter-header">
-            <!-- Left: Logo & Company Name -->
-            <div class="brand">
-                <!-- Inline SVG Logo (Informatics / Network Theme) -->
-                <div class="logo-icon">
-                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="2" y="2" width="46" height="46" rx="10" fill="#0A2540"/>
-                        <path d="M15 25H35M25 15V35" stroke="#00B4D8" stroke-width="4" stroke-linecap="round"/>
-                        <circle cx="15" cy="25" r="3" fill="#FFFFFF"/>
-                        <circle cx="35" cy="25" r="3" fill="#FFFFFF"/>
-                        <circle cx="25" cy="15" r="3" fill="#FFFFFF"/>
-                        <circle cx="25" cy="35" r="3" fill="#FFFFFF"/>
-                        <circle cx="25" cy="25" r="4" fill="#00B4D8"/>
-                    </svg>
-                </div>
-                <div>
-                    <h1 class="company-name">INFORMATICS CONSULTANCY FIRM<span class="sl-accent">-SL</span></h1>
-                    <p class="tagline">Intelligent Solutions • Data Driven Results</p>
+<div class="letterhead-container">
+
+    <!-- ===== LETTERHEAD TOP ===== -->
+    <div class="letterhead-top">
+        <div class="letterhead-main">
+            <div class="logo-wrapper">
+                <div class="logo-placeholder">
+                    <img src="ICF-SL.jpg" alt="ICF-SL Logo" onerror="this.style.display='none'; this.parentElement.textContent='ICF'">
                 </div>
             </div>
-
-            <!-- Right: Contact Information -->
-            <div class="contact-info">
-                <p><span class="icon">⌂</span> 123 Tech Avenue, Colombo 03, Sri Lanka</p>
-                <p><span class="icon">✆</span> +94 11 234 5678 | +94 77 123 4567</p>
-                <p><span class="icon">✉</span> <a href="mailto:info@icf-sl.com">info@icf-sl.com</a></p>
-                <p><span class="icon">⊕</span> <a href="https://www.icf-sl.com" target="_blank">www.icf-sl.com</a></p>
+            <div class="org-name-wrapper">
+                <h1>INFORMATICS CONSULTANCY FIRM-SL</h1>
+                <div class="tagline">Driving Data-Driven Solutions for Health and Development</div>
+                <div class="sub-tag">Sierra Leone · West Africa</div>
             </div>
-        </header>
-
-        <!-- ================= LETTER BODY ================= -->
-        <main class="letter-body">
-            <p class="date">July 14, 2026</p>
-
-            <div class="recipient">
-                <strong>Mr. John Doe</strong><br>
-                Director of Operations<br>
-                Client Company Name<br>
-                Client Address, City
-            </div>
-
-            <p class="salutation">Dear Mr. Doe,</p>
-
-            <div class="content">
-                <p>
-                    <strong>Subject: Proposal for Enterprise Informatics Infrastructure Upgrade</strong>
-                </p>
-                <p>
-                    Thank you for considering INFORMATICS CONSULTANCY FIRM-SL for your upcoming IT infrastructure project. Based on our preliminary discussions, we have outlined a comprehensive strategy to optimize your data flow, enhance cybersecurity protocols, and streamline your internal informatics systems.
-                </p>
-                <p>
-                    Our team of experts has analyzed your current requirements and prepared the attached proposal detailing the implementation phases, expected downtime, and the projected ROI for your organization. We are confident that our tailored approach will significantly improve your operational efficiency.
-                </p>
-                <p>
-                    Please review the attached documentation at your earliest convenience. We look forward to scheduling a follow-up meeting next week to discuss any questions you may have and to finalize the next steps.
-                </p>
-            </div>
-
-            <div class="signature">
-                <p class="sign-off">Sincerely,</p>
-                <!-- Placeholder for actual signature image -->
-                <p class="name">Kasun Perera</p>
-                <p class="title">Lead Informatics Consultant | ICF-SL</p>
-            </div>
-        </main>
-
-        <!-- ================= FOOTER ================= -->
-        <footer class="letter-footer">
-            INFORMATICS CONSULTANCY FIRM-SL &nbsp;|&nbsp; Registered in Sri Lanka &nbsp;|&nbsp; Company Reg: PV-12345 &nbsp;|&nbsp; Confidentiality Notice: The information in this document is confidential.
-        </footer>
+        </div>
+        <div class="gold-accent"></div>
     </div>
+
+    <!-- ===== CONTACT BAR ===== -->
+    <div class="contact-bar">
+        <div class="contact-item">
+            <span class="icon">📍</span>
+            <span>44 Main Street, Freetown, Sierra Leone</span>
+        </div>
+        <div class="contact-divider">|</div>
+        <div class="contact-item">
+            <span class="icon">📞</span>
+            <span>+232 76 123 456</span>
+        </div>
+        <div class="contact-divider">|</div>
+        <div class="contact-item">
+            <span class="icon">✉️</span>
+            <span>info@icf-sl.com</span>
+        </div>
+        <div class="contact-divider">|</div>
+        <div class="contact-item">
+            <span class="icon">🌐</span>
+            <span>www.icf-sl.com</span>
+        </div>
+    </div>
+
+    <!-- ===== LETTERHEAD BODY ===== -->
+    <div class="letterhead-body">
+        <div class="letter-date">
+            <span>📅 July 13, 2026</span>
+        </div>
+
+        <div class="recipient">
+            <h3>Dr. Samuel B. Kamara</h3>
+            <p>National Malaria Control Programme<br>
+            Ministry of Health and Sanitation<br>
+            Freetown, Sierra Leone</p>
+        </div>
+
+        <div class="salutation">Dear Dr. Kamara,</div>
+
+        <div class="content">
+            <p><strong>RE: SCHOOL-BASED DISTRIBUTION OF ITNs — TECHNICAL SUPPORT</strong></p>
+
+            <p>We are pleased to submit our technical proposal for the implementation of the School-Based Distribution (SBD) of Insecticide-Treated Nets (ITNs) across all 16 districts in Sierra Leone. This initiative aligns with the National Malaria Control Programme's strategic goal of achieving universal coverage and reducing malaria burden among school-age children.</p>
+
+            <p>Informatics Consultancy Firm-SL (ICF-SL) brings extensive experience in data-driven health interventions, having successfully supported the NMCP in previous campaigns. Our team of experts in health informatics, logistics management, and community engagement is fully prepared to deliver a robust and sustainable SBD program.</p>
+
+            <p>We look forward to the opportunity to partner with the NMCP in this critical public health intervention. Please find attached our detailed proposal and budget estimate for your review.</p>
+        </div>
+
+        <div class="closing">
+            <p>Yours sincerely,</p>
+            <div class="signature">
+                <div class="name">Dr. John A. Sesay</div>
+                <div class="title">Managing Director, ICF-SL</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LETTERHEAD FOOTER ===== -->
+    <div class="letterhead-footer">
+        <div class="footer-text">
+            <strong>ICF-SL</strong> · Informatics Consultancy Firm-Sierra Leone · <span style="color:rgba(255,255,255,0.6);">Est. 2018</span>
+        </div>
+        <div class="footer-tag">
+            <span>🔹</span> Data-Driven Solutions <span>🔹</span> Health &amp; Development <span>🔹</span> SBD 2026
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>
