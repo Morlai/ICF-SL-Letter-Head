@@ -106,6 +106,9 @@
             padding: 30px 40px 20px;
             position: relative;
             overflow: hidden;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
 
         .letterhead-top::before {
@@ -159,6 +162,9 @@
             font-family: 'Oswald', sans-serif;
             border: 2px solid #FFC107;
             overflow: hidden;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
 
         .logo-placeholder img {
@@ -208,6 +214,9 @@
             position: relative;
             z-index: 1;
             margin-top: 18px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
 
         /* Contact & address bar */
@@ -283,6 +292,9 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 10px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
         }
 
         .letterhead-footer .footer-text {
@@ -347,6 +359,139 @@
             background: #003366;
         }
 
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .button-bar {
+                display: none !important;
+            }
+
+            .letterhead-container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-top {
+                background: linear-gradient(135deg, #002244 0%, #003366 50%, #004080 100%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-top::before,
+            .letterhead-top::after {
+                display: none !important;
+            }
+
+            .gold-accent {
+                background: linear-gradient(90deg, #FFC107, #FFD966, #FFC107) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-footer {
+                background: linear-gradient(135deg, #002244 0%, #003366 100%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .logo-placeholder {
+                background: white !important;
+                border: 2px solid #FFC107 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .logo-placeholder img {
+                display: block !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .org-name-wrapper h1 {
+                color: #ffffff !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .org-name-wrapper .tagline {
+                color: #FFC107 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .org-name-wrapper .sub-tag {
+                color: rgba(255,255,255,0.7) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .contact-bar {
+                background: #f8fafc !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-body .placeholder-text {
+                border: none !important;
+                background: transparent !important;
+                color: #cbd5e0 !important;
+            }
+
+            .letterhead-footer .footer-text {
+                color: rgba(255,255,255,0.8) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-footer .footer-text strong {
+                color: #FFC107 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-footer .footer-tag {
+                color: #FFC107 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .letterhead-footer .footer-tag span {
+                color: rgba(255,255,255,0.5) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            .toast {
+                display: none !important;
+            }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 700px) {
             .button-bar {
@@ -406,32 +551,6 @@
                 flex-direction: column;
                 text-align: center;
                 padding: 14px 20px;
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .button-bar {
-                display: none !important;
-            }
-
-            .letterhead-container {
-                box-shadow: none;
-                border-radius: 0;
-            }
-
-            .letterhead-body .placeholder-text {
-                border: none;
-                background: transparent;
-                color: #cbd5e0;
-            }
-
-            .toast {
-                display: none !important;
             }
         }
     </style>
@@ -541,7 +660,6 @@
         const toast = document.getElementById('toast');
         toast.textContent = message;
         toast.className = 'toast ' + type;
-        // Force reflow
         void toast.offsetWidth;
         toast.classList.add('show');
         clearTimeout(toast._timeout);
@@ -609,7 +727,6 @@
                         }
                     });
                 } else {
-                    // Fallback: Copy image to clipboard
                     if (navigator.clipboard && navigator.clipboard.write) {
                         navigator.clipboard.write([
                             new ClipboardItem({
@@ -618,7 +735,6 @@
                         ]).then(() => {
                             showToast('✅ Image copied to clipboard!', 'success');
                         }).catch(() => {
-                            // Final fallback: download
                             const link = document.createElement('a');
                             link.download = 'ICF-SL_Letterhead.png';
                             link.href = URL.createObjectURL(blob);
@@ -627,7 +743,6 @@
                             showToast('📥 Image downloaded instead (share not supported)', 'info');
                         });
                     } else {
-                        // Fallback: download
                         const link = document.createElement('a');
                         link.download = 'ICF-SL_Letterhead.png';
                         link.href = URL.createObjectURL(blob);
@@ -645,11 +760,9 @@
 
     // ===== PRINT FUNCTION =====
     function printLetterhead() {
-        // Temporarily hide the button bar for printing
+        // Hide button bar and toast for printing
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
-        const originalDisplay = buttonBar.style.display;
-        const toastOriginalDisplay = toast.style.display;
         
         buttonBar.style.display = 'none';
         toast.style.display = 'none';
@@ -659,18 +772,17 @@
         
         // Restore after print dialog closes
         setTimeout(function() {
-            buttonBar.style.display = originalDisplay || 'flex';
-            toast.style.display = toastOriginalDisplay || '';
-            showToast('🖨️ Print dialog closed', 'info');
+            buttonBar.style.display = 'flex';
+            toast.style.display = '';
         }, 1000);
     }
 
-    // Handle print cancellation
+    // Handle print cancellation/after print
     window.addEventListener('afterprint', function() {
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
-        buttonBar.style.display = 'flex';
-        toast.style.display = '';
+        if (buttonBar) buttonBar.style.display = 'flex';
+        if (toast) toast.style.display = '';
     });
 </script>
 
