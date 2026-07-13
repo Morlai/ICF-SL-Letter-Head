@@ -1,1 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICF-SL Letterhead</title>
+    <style>
+        /* --- ICF THEME VARIABLES --- */
+        :root {
+            --icf-primary: #0A2540;      /* Deep Navy Blue */
+            --icf-accent: #00B4D8;       /* Tech Cyan */
+            --icf-text: #334155;         /* Slate Gray */
+            --icf-light-bg: #F8FAFC;     /* Very Light Gray/White */
+            --icf-border: #E2E8F0;       /* Light Border */
+        }
 
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #E2E8F0;
+            color: var(--icf-text);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        /* --- A4 PAPER CONTAINER --- */
+        .paper {
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: #FFFFFF;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 20mm 20mm 30mm 20mm;
+            position: relative;
+        }
+
+        /* --- HEADER SECTION --- */
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--icf-primary);
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        /* Accent line overlay */
+        .letter-header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 25%;
+            height: 3px;
+            background: var(--icf-accent);
+        }
+
+        /* Brand / Logo Area */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            flex-shrink: 0;
+        }
+
+        .company-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--icf-primary);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .company-name .sl-accent {
+            color: var(--icf-accent);
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 11px;
+            font-weight: 500;
+            color: #64748B;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+        }
+
+        /* Contact Info Area */
+        .contact-info {
+            text-align: right;
+            font-size: 12px;
+            color: var(--icf-text);
+            line-height: 1.8;
+        }
+
+        .contact-info p {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info .icon {
+            color: var(--icf-accent);
+            font-weight: bold;
+            width: 16px;
+            text-align: center;
+        }
+
+        .contact-info a {
+            color: var(--icf-text);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: var(--icf-accent);
+        }
+
+        /* --- LETTER BODY (Placeholder) --- */
+        .letter-body {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--icf-text);
+        }
+
+        .date {
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .recipient {
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .salutation {
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+
+        .signature {
+            margin-top: 50px;
+        }
+
+        .signature .sign-off {
+            margin-bottom: 40px;
+        }
+
+        .signature .name {
+            font-weight: 700;
+            color: var(--icf-primary);
+        }
+
+        .signature .title {
+            font-size: 13px;
+            color: #64748B;
+        }
+
+        /* --- FOOTER --- */
+        .letter-footer {
+            position: absolute;
+            bottom: 15mm;
+            left: 20mm;
+            right: 20mm;
+            text-align: center;
+            font-size: 10px;
+            color: #94A3B8;
+            border-top: 1px solid var(--icf-border);
+            padding-top: 10px;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .paper {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 15mm;
+                margin: 0;
+            }
+            .letter-footer {
+                position: fixed;
+                bottom: 10mm;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="paper">
+        <!-- ================= HEADER ================= -->
+        <header class="letter-header">
+            <!-- Left: Logo & Company Name -->
+            <div class="brand">
+                <!-- Inline SVG Logo (Informatics / Network Theme) -->
+                <div class="logo-icon">
+                    <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="46" height="46" rx="10" fill="#0A2540"/>
+                        <path d="M15 25H35M25 15V35" stroke="#00B4D8" stroke-width="4" stroke-linecap="round"/>
+                        <circle cx="15" cy="25" r="3" fill="#FFFFFF"/>
+                        <circle cx="35" cy="25" r="3" fill="#FFFFFF"/>
+                        <circle cx="25" cy="15" r="3" fill="#FFFFFF"/>
+                        <circle cx="25" cy="35" r="3" fill="#FFFFFF"/>
+                        <circle cx="25" cy="25" r="4" fill="#00B4D8"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="company-name">INFORMATICS CONSULTANCY FIRM<span class="sl-accent">-SL</span></h1>
+                    <p class="tagline">Intelligent Solutions • Data Driven Results</p>
+                </div>
+            </div>
+
+            <!-- Right: Contact Information -->
+            <div class="contact-info">
+                <p><span class="icon">⌂</span> 123 Tech Avenue, Colombo 03, Sri Lanka</p>
+                <p><span class="icon">✆</span> +94 11 234 5678 | +94 77 123 4567</p>
+                <p><span class="icon">✉</span> <a href="mailto:info@icf-sl.com">info@icf-sl.com</a></p>
+                <p><span class="icon">⊕</span> <a href="https://www.icf-sl.com" target="_blank">www.icf-sl.com</a></p>
+            </div>
+        </header>
+
+        <!-- ================= LETTER BODY ================= -->
+        <main class="letter-body">
+            <p class="date">July 14, 2026</p>
+
+            <div class="recipient">
+                <strong>Mr. John Doe</strong><br>
+                Director of Operations<br>
+                Client Company Name<br>
+                Client Address, City
+            </div>
+
+            <p class="salutation">Dear Mr. Doe,</p>
+
+            <div class="content">
+                <p>
+                    <strong>Subject: Proposal for Enterprise Informatics Infrastructure Upgrade</strong>
+                </p>
+                <p>
+                    Thank you for considering INFORMATICS CONSULTANCY FIRM-SL for your upcoming IT infrastructure project. Based on our preliminary discussions, we have outlined a comprehensive strategy to optimize your data flow, enhance cybersecurity protocols, and streamline your internal informatics systems.
+                </p>
+                <p>
+                    Our team of experts has analyzed your current requirements and prepared the attached proposal detailing the implementation phases, expected downtime, and the projected ROI for your organization. We are confident that our tailored approach will significantly improve your operational efficiency.
+                </p>
+                <p>
+                    Please review the attached documentation at your earliest convenience. We look forward to scheduling a follow-up meeting next week to discuss any questions you may have and to finalize the next steps.
+                </p>
+            </div>
+
+            <div class="signature">
+                <p class="sign-off">Sincerely,</p>
+                <!-- Placeholder for actual signature image -->
+                <p class="name">Kasun Perera</p>
+                <p class="title">Lead Informatics Consultant | ICF-SL</p>
+            </div>
+        </main>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="letter-footer">
+            INFORMATICS CONSULTANCY FIRM-SL &nbsp;|&nbsp; Registered in Sri Lanka &nbsp;|&nbsp; Company Reg: PV-12345 &nbsp;|&nbsp; Confidentiality Notice: The information in this document is confidential.
+        </footer>
+    </div>
+
+</body>
+</html>
