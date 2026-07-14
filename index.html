@@ -6,6 +6,7 @@
     <title>ICF-SL Letterhead - Device Assessment Attendance</title>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -373,7 +374,73 @@
         .toast.error { background: #c0392b; }
         .toast.info { background: #003366; }
 
-        /* ===== PRINT STYLES - EXACTLY ONE PAGE ===== */
+        /* ===== SHARE DROPDOWN ===== */
+        .share-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .share-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 8px 0;
+            z-index: 1000;
+            margin-top: 4px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .share-dropdown-content.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .share-dropdown-content .share-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 18px;
+            color: #1a2c3e;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .share-dropdown-content .share-item:hover {
+            background: #f0f4f9;
+        }
+
+        .share-dropdown-content .share-item .share-icon {
+            font-size: 18px;
+            width: 28px;
+            text-align: center;
+        }
+
+        .share-dropdown-content .share-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 4px 12px;
+        }
+
+        /* ===== PRINT STYLES ===== */
         @media print {
             html, body {
                 background: white !important;
@@ -388,6 +455,7 @@
             .button-bar { display: none !important; }
             .add-row-container { display: none !important; }
             .toast { display: none !important; }
+            .share-dropdown-content { display: none !important; }
 
             .main-wrapper {
                 max-width: 100% !important;
@@ -579,7 +647,6 @@
                 color-adjust: exact !important;
             }
 
-            /* Ensure everything fits on one page */
             .letterhead-container {
                 height: auto !important;
                 max-height: 100vh !important;
@@ -605,6 +672,12 @@
             .attendance-table .title-attendance { font-size: 12px; }
             .letterhead-footer { flex-direction: column; text-align: center; padding: 14px 20px; }
             .btn-add-row { padding: 8px 20px; font-size: 12px; }
+            .share-dropdown-content {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                min-width: 200px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -623,12 +696,26 @@
 <div class="main-wrapper">
 
     <div class="button-bar">
-        <button class="btn-action btn-download" onclick="downloadLetterhead()">
-            <span class="icon">⬇️</span> Download
+        <button class="btn-action btn-download" onclick="downloadPDF()">
+            <span class="icon">⬇️</span> Download PDF
         </button>
-        <button class="btn-action btn-share" onclick="shareLetterhead()">
-            <span class="icon">📤</span> Share
-        </button>
+        <div class="share-dropdown">
+            <button class="btn-action btn-share" onclick="toggleShareDropdown()">
+                <span class="icon">📤</span> Share
+            </button>
+            <div class="share-dropdown-content" id="shareDropdown">
+                <button class="share-item" onclick="shareViaWhatsApp()">
+                    <span class="share-icon">💬</span> WhatsApp
+                </button>
+                <button class="share-item" onclick="shareViaEmail()">
+                    <span class="share-icon">✉️</span> Email
+                </button>
+                <div class="share-divider"></div>
+                <button class="share-item" onclick="shareViaCopy()">
+                    <span class="share-icon">📋</span> Copy as Image
+                </button>
+            </div>
+        </div>
         <button class="btn-action btn-print" onclick="printLetterhead()">
             <span class="icon">🖨️</span> Print
         </button>
@@ -734,6 +821,7 @@
 <script>
     let rowCounter = 32;
 
+    // ===== ADD ROW FUNCTION =====
     function addRow() {
         rowCounter++;
         const tbody = document.getElementById('tableBody');
@@ -749,6 +837,7 @@
         showToast(`✅ Row ${rowCounter} added successfully!`, 'success');
     }
 
+    // ===== TOAST NOTIFICATION =====
     function showToast(message, type = 'info') {
         const toast = document.getElementById('toast');
         toast.textContent = message;
@@ -761,34 +850,62 @@
         }, 3000);
     }
 
-    function downloadLetterhead() {
+    // ===== SHARE DROPDOWN =====
+    function toggleShareDropdown() {
+        const dropdown = document.getElementById('shareDropdown');
+        dropdown.classList.toggle('show');
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('shareDropdown');
+        const shareBtn = document.querySelector('.share-dropdown');
+        if (!shareBtn.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    // ===== DOWNLOAD PDF FUNCTION =====
+    function downloadPDF() {
         const element = document.getElementById('letterheadContainer');
-        showToast('Generating image...', 'info');
+        showToast('Generating PDF...', 'info');
 
         html2canvas(element, {
             scale: 2.5,
             backgroundColor: '#ffffff',
             useCORS: true,
             logging: false,
-            allowTaint: true
+            allowTaint: true,
+            width: 900,
+            height: element.scrollHeight
         }).then(function(canvas) {
-            const link = document.createElement('a');
-            const now = new Date();
-            const dateStr = now.toISOString().split('T')[0];
-            link.download = `ICF-SL_Device_Assessment_${dateStr}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            showToast('✅ Downloaded successfully!', 'success');
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            // Calculate image dimensions to fit on A4
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+            const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+            const imgX = (pdfWidth - imgWidth * ratio) / 2;
+            const imgY = (pdfHeight - imgHeight * ratio) / 2;
+            
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+            pdf.save(`ICF-SL_Device_Assessment_${new Date().toISOString().split('T')[0]}.pdf`);
+            showToast('✅ PDF downloaded successfully!', 'success');
         }).catch(function(err) {
             console.error(err);
-            showToast('❌ Download failed. Please try again.', 'error');
+            showToast('❌ PDF generation failed. Please try again.', 'error');
         });
     }
 
-    function shareLetterhead() {
+    // ===== SHARE VIA WHATSAPP =====
+    function shareViaWhatsApp() {
         const element = document.getElementById('letterheadContainer');
-        showToast('Preparing to share...', 'info');
-
+        showToast('Preparing for WhatsApp...', 'info');
+        
         html2canvas(element, {
             scale: 2.5,
             backgroundColor: '#ffffff',
@@ -801,9 +918,12 @@
                     showToast('❌ Failed to generate image.', 'error');
                     return;
                 }
-
+                
                 const file = new File([blob], 'ICF-SL_Device_Assessment.png', { type: 'image/png' });
-
+                
+                // Close dropdown
+                document.getElementById('shareDropdown').classList.remove('show');
+                
                 if (navigator.share) {
                     navigator.share({
                         title: 'ICF-SL Device Assessment Attendance',
@@ -818,29 +938,17 @@
                         }
                     });
                 } else {
-                    if (navigator.clipboard && navigator.clipboard.write) {
-                        navigator.clipboard.write([
-                            new ClipboardItem({
-                                'image/png': blob
-                            })
-                        ]).then(() => {
-                            showToast('✅ Image copied to clipboard!', 'success');
-                        }).catch(() => {
-                            const link = document.createElement('a');
-                            link.download = 'ICF-SL_Device_Assessment.png';
-                            link.href = URL.createObjectURL(blob);
-                            link.click();
-                            URL.revokeObjectURL(link.href);
-                            showToast('📥 Image downloaded (share not supported)', 'info');
-                        });
-                    } else {
-                        const link = document.createElement('a');
-                        link.download = 'ICF-SL_Device_Assessment.png';
-                        link.href = URL.createObjectURL(blob);
-                        link.click();
-                        URL.revokeObjectURL(link.href);
-                        showToast('📥 Share not supported — image downloaded', 'info');
-                    }
+                    // Fallback for desktop - open WhatsApp Web with image
+                    const url = URL.createObjectURL(blob);
+                    const whatsappUrl = `https://api.whatsapp.com/send?text=ICF-SL%20Device%20Assessment%20Attendance%20Sheet%20-%20Please%20find%20attached%20the%20attendance%20list.`;
+                    window.open(whatsappUrl, '_blank');
+                    showToast('📤 Please download and attach the image to WhatsApp', 'info');
+                    // Download as fallback
+                    const link = document.createElement('a');
+                    link.download = 'ICF-SL_Device_Assessment.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
                 }
             }, 'image/png');
         }).catch(function(err) {
@@ -849,14 +957,131 @@
         });
     }
 
+    // ===== SHARE VIA EMAIL =====
+    function shareViaEmail() {
+        const element = document.getElementById('letterheadContainer');
+        showToast('Preparing for Email...', 'info');
+        
+        html2canvas(element, {
+            scale: 2.5,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false,
+            allowTaint: true
+        }).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                if (!blob) {
+                    showToast('❌ Failed to generate image.', 'error');
+                    return;
+                }
+                
+                // Close dropdown
+                document.getElementById('shareDropdown').classList.remove('show');
+                
+                const subject = encodeURIComponent('ICF-SL Device Assessment Attendance Sheet');
+                const body = encodeURIComponent('Please find attached the Device Assessment Attendance Sheet for your records.\n\nBest regards,\nICF-SL');
+                
+                if (navigator.share) {
+                    const file = new File([blob], 'ICF-SL_Device_Assessment.png', { type: 'image/png' });
+                    navigator.share({
+                        title: 'ICF-SL Device Assessment Attendance',
+                        text: 'Device Assessment Attendance Sheet - ICF-SL',
+                        files: [file]
+                    }).then(() => {
+                        showToast('✅ Shared successfully!', 'success');
+                    }).catch((err) => {
+                        if (err.name !== 'AbortError') {
+                            console.error(err);
+                            showToast('❌ Share cancelled or failed.', 'error');
+                        }
+                    });
+                } else {
+                    // Fallback: open email client
+                    const mailtoUrl = `mailto:?subject=${subject}&body=${body}`;
+                    window.open(mailtoUrl, '_blank');
+                    showToast('📤 Email client opened. Please attach the image.', 'info');
+                    
+                    // Also download the image as fallback
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'ICF-SL_Device_Assessment.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }
+            }, 'image/png');
+        }).catch(function(err) {
+            console.error(err);
+            showToast('❌ Failed to generate image.', 'error');
+        });
+    }
+
+    // ===== SHARE VIA COPY =====
+    function shareViaCopy() {
+        const element = document.getElementById('letterheadContainer');
+        showToast('Copying image...', 'info');
+        
+        html2canvas(element, {
+            scale: 2.5,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false,
+            allowTaint: true
+        }).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                if (!blob) {
+                    showToast('❌ Failed to generate image.', 'error');
+                    return;
+                }
+                
+                // Close dropdown
+                document.getElementById('shareDropdown').classList.remove('show');
+                
+                if (navigator.clipboard && navigator.clipboard.write) {
+                    navigator.clipboard.write([
+                        new ClipboardItem({
+                            'image/png': blob
+                        })
+                    ]).then(() => {
+                        showToast('✅ Image copied to clipboard!', 'success');
+                    }).catch(() => {
+                        // Fallback: download
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = 'ICF-SL_Device_Assessment.png';
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                        showToast('📥 Image downloaded (copy not supported)', 'info');
+                    });
+                } else {
+                    // Fallback: download
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = 'ICF-SL_Device_Assessment.png';
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                    showToast('📥 Image downloaded (copy not supported)', 'info');
+                }
+            }, 'image/png');
+        }).catch(function(err) {
+            console.error(err);
+            showToast('❌ Failed to generate image.', 'error');
+        });
+    }
+
+    // ===== PRINT FUNCTION =====
     function printLetterhead() {
         const buttonBar = document.querySelector('.button-bar');
         const toast = document.getElementById('toast');
         const addRowBtn = document.querySelector('.add-row-container');
+        const shareDropdown = document.getElementById('shareDropdown');
 
         buttonBar.style.display = 'none';
         toast.style.display = 'none';
         if (addRowBtn) addRowBtn.style.display = 'none';
+        if (shareDropdown) shareDropdown.classList.remove('show');
 
         window.print();
 
