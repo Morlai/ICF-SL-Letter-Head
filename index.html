@@ -238,26 +238,32 @@
             font-size: 12px;
         }
 
-        .attendance-table .table-title {
+        /* Title rows - DEVICE ASSESSMENT on top, ATTENDANCE below */
+        .attendance-table .title-device {
             text-align: center;
             font-size: 18px;
             font-weight: 700;
             color: #002244;
             letter-spacing: 2px;
-            padding: 8px 0;
+            padding: 8px 0 2px 0;
             font-family: 'Oswald', sans-serif;
+            border: none;
+            background: transparent;
         }
 
-        .attendance-table .table-subtitle {
+        .attendance-table .title-attendance {
             text-align: center;
             font-size: 14px;
             font-weight: 600;
             color: #003366;
             letter-spacing: 1px;
-            padding: 4px 0 12px 0;
+            padding: 2px 0 12px 0;
             font-family: 'Oswald', sans-serif;
+            border: none;
+            background: transparent;
         }
 
+        /* Column headers with blue background - all same color */
         .attendance-table th {
             background: #003366;
             color: white;
@@ -297,19 +303,23 @@
         }
 
         .attendance-table .col-name {
-            min-width: 160px;
+            min-width: 250px;
+            width: 40%;
         }
 
         .attendance-table .col-phone {
-            min-width: 120px;
+            min-width: 130px;
+            width: 20%;
         }
 
         .attendance-table .col-date {
-            min-width: 100px;
+            min-width: 110px;
+            width: 18%;
         }
 
         .attendance-table .col-sign {
-            min-width: 120px;
+            min-width: 130px;
+            width: 22%;
         }
 
         /* ===== ADD ROW BUTTON BELOW TABLE ===== */
@@ -620,26 +630,30 @@
             }
 
             .attendance-table .col-name {
-                min-width: 100px;
+                min-width: 120px;
+                width: 35%;
             }
 
             .attendance-table .col-phone {
                 min-width: 80px;
+                width: 20%;
             }
 
             .attendance-table .col-date {
                 min-width: 70px;
+                width: 18%;
             }
 
             .attendance-table .col-sign {
                 min-width: 80px;
+                width: 22%;
             }
 
-            .attendance-table .table-title {
+            .attendance-table .title-device {
                 font-size: 15px;
             }
 
-            .attendance-table .table-subtitle {
+            .attendance-table .title-attendance {
                 font-size: 12px;
             }
 
@@ -671,7 +685,7 @@
             }
 
             .attendance-table .col-name {
-                min-width: 70px;
+                min-width: 80px;
             }
 
             .attendance-table .col-phone {
@@ -730,12 +744,15 @@
             <!-- ===== DEVICE ASSESSMENT - ATTENDANCE TABLE ===== -->
             <div class="attendance-table-wrapper">
                 <table class="attendance-table" id="attendanceTable">
+                    <!-- Row 1: DEVICE ASSESSMENT -->
                     <tr>
-                        <td colspan="5" class="table-title">DEVICE ASSESSMENT</td>
+                        <td colspan="5" class="title-device">DEVICE ASSESSMENT</td>
                     </tr>
+                    <!-- Row 2: ATTENDANCE -->
                     <tr>
-                        <td colspan="5" class="table-subtitle">ATTENDANCE</td>
+                        <td colspan="5" class="title-attendance">ATTENDANCE</td>
                     </tr>
+                    <!-- Header Row with blue background - all same color -->
                     <thead>
                         <tr>
                             <th class="col-no">NO.</th>
