@@ -440,6 +440,11 @@
             margin: 4px 12px;
         }
 
+        /* Hide add row button during PDF generation */
+        .pdf-generation .add-row-container {
+            display: none !important;
+        }
+
         /* ===== PRINT STYLES ===== */
         @media print {
             html, body {
@@ -795,7 +800,7 @@
                 </table>
             </div>
 
-            <div class="add-row-container">
+            <div class="add-row-container" id="addRowContainer">
                 <button class="btn-add-row" onclick="addRow()">
                     <span class="icon">➕</span> Add Row
                 </button>
@@ -860,13 +865,18 @@
     document.addEventListener('click', function(event) {
         const dropdown = document.getElementById('shareDropdown');
         const shareBtn = document.querySelector('.share-dropdown');
-        if (!shareBtn.contains(event.target)) {
+        if (shareBtn && !shareBtn.contains(event.target)) {
             dropdown.classList.remove('show');
         }
     });
 
     // ===== DOWNLOAD PDF FUNCTION =====
     function downloadPDF() {
+        // Temporarily hide the Add Row button
+        const addRowContainer = document.getElementById('addRowContainer');
+        const originalDisplay = addRowContainer.style.display;
+        addRowContainer.style.display = 'none';
+        
         const element = document.getElementById('letterheadContainer');
         showToast('Generating PDF...', 'info');
 
@@ -879,13 +889,15 @@
             width: 900,
             height: element.scrollHeight
         }).then(function(canvas) {
+            // Restore the Add Row button
+            addRowContainer.style.display = originalDisplay || 'flex';
+            
             const imgData = canvas.toDataURL('image/png');
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
             
-            // Calculate image dimensions to fit on A4
             const imgWidth = canvas.width;
             const imgHeight = canvas.height;
             const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
@@ -896,6 +908,8 @@
             pdf.save(`ICF-SL_Device_Assessment_${new Date().toISOString().split('T')[0]}.pdf`);
             showToast('✅ PDF downloaded successfully!', 'success');
         }).catch(function(err) {
+            // Restore the Add Row button on error
+            addRowContainer.style.display = originalDisplay || 'flex';
             console.error(err);
             showToast('❌ PDF generation failed. Please try again.', 'error');
         });
@@ -906,6 +920,11 @@
         const element = document.getElementById('letterheadContainer');
         showToast('Preparing for WhatsApp...', 'info');
         
+        // Hide Add Row button for the capture
+        const addRowContainer = document.getElementById('addRowContainer');
+        const originalDisplay = addRowContainer.style.display;
+        addRowContainer.style.display = 'none';
+        
         html2canvas(element, {
             scale: 2.5,
             backgroundColor: '#ffffff',
@@ -913,6 +932,9 @@
             logging: false,
             allowTaint: true
         }).then(function(canvas) {
+            // Restore Add Row button
+            addRowContainer.style.display = originalDisplay || 'flex';
+            
             canvas.toBlob(function(blob) {
                 if (!blob) {
                     showToast('❌ Failed to generate image.', 'error');
@@ -938,12 +960,10 @@
                         }
                     });
                 } else {
-                    // Fallback for desktop - open WhatsApp Web with image
                     const url = URL.createObjectURL(blob);
                     const whatsappUrl = `https://api.whatsapp.com/send?text=ICF-SL%20Device%20Assessment%20Attendance%20Sheet%20-%20Please%20find%20attached%20the%20attendance%20list.`;
                     window.open(whatsappUrl, '_blank');
                     showToast('📤 Please download and attach the image to WhatsApp', 'info');
-                    // Download as fallback
                     const link = document.createElement('a');
                     link.download = 'ICF-SL_Device_Assessment.png';
                     link.href = url;
@@ -952,6 +972,7 @@
                 }
             }, 'image/png');
         }).catch(function(err) {
+            addRowContainer.style.display = originalDisplay || 'flex';
             console.error(err);
             showToast('❌ Failed to generate image.', 'error');
         });
@@ -962,6 +983,10 @@
         const element = document.getElementById('letterheadContainer');
         showToast('Preparing for Email...', 'info');
         
+        const addRowContainer = document.getElementById('addRowContainer');
+        const originalDisplay = addRowContainer.style.display;
+        addRowContainer.style.display = 'none';
+        
         html2canvas(element, {
             scale: 2.5,
             backgroundColor: '#ffffff',
@@ -969,13 +994,14 @@
             logging: false,
             allowTaint: true
         }).then(function(canvas) {
+            addRowContainer.style.display = originalDisplay || 'flex';
+            
             canvas.toBlob(function(blob) {
                 if (!blob) {
                     showToast('❌ Failed to generate image.', 'error');
                     return;
                 }
                 
-                // Close dropdown
                 document.getElementById('shareDropdown').classList.remove('show');
                 
                 const subject = encodeURIComponent('ICF-SL Device Assessment Attendance Sheet');
@@ -996,12 +1022,10 @@
                         }
                     });
                 } else {
-                    // Fallback: open email client
                     const mailtoUrl = `mailto:?subject=${subject}&body=${body}`;
                     window.open(mailtoUrl, '_blank');
                     showToast('📤 Email client opened. Please attach the image.', 'info');
                     
-                    // Also download the image as fallback
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.download = 'ICF-SL_Device_Assessment.png';
@@ -1011,6 +1035,7 @@
                 }
             }, 'image/png');
         }).catch(function(err) {
+            addRowContainer.style.display = originalDisplay || 'flex';
             console.error(err);
             showToast('❌ Failed to generate image.', 'error');
         });
@@ -1021,6 +1046,10 @@
         const element = document.getElementById('letterheadContainer');
         showToast('Copying image...', 'info');
         
+        const addRowContainer = document.getElementById('addRowContainer');
+        const originalDisplay = addRowContainer.style.display;
+        addRowContainer.style.display = 'none';
+        
         html2canvas(element, {
             scale: 2.5,
             backgroundColor: '#ffffff',
@@ -1028,13 +1057,14 @@
             logging: false,
             allowTaint: true
         }).then(function(canvas) {
+            addRowContainer.style.display = originalDisplay || 'flex';
+            
             canvas.toBlob(function(blob) {
                 if (!blob) {
                     showToast('❌ Failed to generate image.', 'error');
                     return;
                 }
                 
-                // Close dropdown
                 document.getElementById('shareDropdown').classList.remove('show');
                 
                 if (navigator.clipboard && navigator.clipboard.write) {
@@ -1045,7 +1075,6 @@
                     ]).then(() => {
                         showToast('✅ Image copied to clipboard!', 'success');
                     }).catch(() => {
-                        // Fallback: download
                         const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.download = 'ICF-SL_Device_Assessment.png';
@@ -1055,7 +1084,6 @@
                         showToast('📥 Image downloaded (copy not supported)', 'info');
                     });
                 } else {
-                    // Fallback: download
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.download = 'ICF-SL_Device_Assessment.png';
@@ -1066,6 +1094,7 @@
                 }
             }, 'image/png');
         }).catch(function(err) {
+            addRowContainer.style.display = originalDisplay || 'flex';
             console.error(err);
             showToast('❌ Failed to generate image.', 'error');
         });
